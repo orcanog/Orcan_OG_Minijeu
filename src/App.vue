@@ -1,168 +1,299 @@
 <template>
-  <div>
-    <table>
-      <tbody>
-        <tr v-for="(row, rowIndex) in grid" :key="rowIndex">
-          <td
-            v-for="(cell, colIndex) in row"
-            :key="colIndex"
-            :class="{ 'zero-cell': colIndex === 5 || rowIndex === 5 }"
-            @click="handleCellClick(rowIndex, colIndex)"
-          >
-            <!-- Utilisation d'une balise img pour l'image du Voltorb -->
-            <img
-              v-if="cell.flipped && cell.value === 0"
-              src="/voltorb.png"
-              alt="Image de Voltorb"
-              style="width: 20px; height: 20px"
-            />
-            <!-- Affichage de la valeur lorsque la cellule est retournée -->
-            <span v-else-if="cell.flipped && colIndex !== 5 && rowIndex !== 5">{{
-              cell.value
-            }}</span>
-            <!-- Affichage du total de la colonne ou de la ligne pour les cases avec la classe ".zero-cell" -->
-            <span v-else>
-              <!-- Affichage du total des points et du nombre de zéros dans les cellules ".zero-cell" -->
-              {{ cell.total }}
-              <br />
-              {{ cell.zeros }}
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- Affichage du compteur de points -->
-    <div>Score: {{ score }}</div>
-  </div>
+  <v-app>
+    <!-- Menu -->
+    <v-toolbar class="flex-grow-0" dark color="green">
+      <v-toolbar-title>Pokémon Flip</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-menu>
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon="$accountOutline"> </v-btn>
+        </template>
+
+        <!-- Liste des éléménts du bouton user -->
+        <v-list>
+          <v-list-item v-if="!isLoggedIn" @click.stop="overlayLogin = !overlayLogin">
+            <v-list-item-title>Connexion</v-list-item-title>
+            <v-overlay v-model="overlayLogin" class="align-center justify-center">
+              <v-card class="pa-12 pb-8" width="448" rounded="lg">
+                <v-btn
+                  @click="overlayLogin = false"
+                  icon="$close"
+                  variant="text"
+                  class="mt-n8 ml-n8"
+                  style="z-index: 1; color: gray"
+                ></v-btn>
+                <div class="text-subtitle-1 text-medium-emphasis">Adresse mail :</div>
+
+                <v-text-field
+                  v-model="email"
+                  :rules="[
+                    () =>
+                      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
+                      'L\'adresse e-mail n\'est pas valide'
+                  ]"
+                  hide-details
+                  density="compact"
+                  placeholder="Email"
+                  prepend-inner-icon="$emailOutline"
+                  variant="outlined"
+                ></v-text-field>
+
+                <div
+                  class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
+                >
+                  Mot de passe :
+                </div>
+
+                <v-text-field
+                  v-model="password"
+                  :rules="isPasswordValid"
+                  :append-inner-icon="visible ? '$eyeOff' : '$eye'"
+                  :type="visible ? 'text' : 'password'"
+                  density="compact"
+                  placeholder="Mot de passe"
+                  prepend-inner-icon="$lockOutline"
+                  variant="outlined"
+                  @click:append-inner="visible = !visible"
+                ></v-text-field>
+
+                <v-card-text class="text-center text-red">
+                  <p>{{ errMsg }}</p>
+                </v-card-text>
+
+                <v-btn
+                  :disabled="!emailValid || !passwordValid"
+                  class="mb-8"
+                  color="blue"
+                  size="large"
+                  variant="tonal"
+                  block
+                  @click="login"
+                >
+                  Se connecter
+                </v-btn>
+
+                <v-card-text
+                  class="text-center text-blue cursor-pointer"
+                  @click="(overlayRegister = true), (overlayLogin = false), (visible = false)"
+                >
+                  Pas de compte ? <v-icon icon="$chevronRight"></v-icon>
+                </v-card-text>
+              </v-card>
+            </v-overlay>
+          </v-list-item>
+          <v-list-item v-if="!isLoggedIn" @click.stop="overlayRegister = !overlayRegister">
+            <v-list-item-title>S'enregistrer</v-list-item-title>
+            <v-overlay v-model="overlayRegister" class="align-center justify-center">
+              <v-card class="pa-12 pb-8" width="448" rounded="lg">
+                <v-btn
+                  @click="overlayRegister = false"
+                  class="mt-n8 ml-n8"
+                  icon="$close"
+                  variant="text"
+                  style="z-index: 1; color: gray"
+                ></v-btn>
+                <div class="text-subtitle-1 text-medium-emphasis">Nom d'utilisateur :</div>
+                <v-text-field
+                  v-model="username"
+                  density="compact"
+                  placeholder="Pseudo"
+                  hide-details
+                  prepend-inner-icon="$accountOutline"
+                  variant="outlined"
+                ></v-text-field>
+
+                <div class="text-subtitle-1 text-medium-emphasis">Adresse mail :</div>
+                <v-text-field
+                  v-model="email"
+                  :rules="[() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)]"
+                  hide-details
+                  density="compact"
+                  placeholder="Email"
+                  prepend-inner-icon="$emailOutline"
+                  variant="outlined"
+                ></v-text-field>
+
+                <div
+                  class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
+                >
+                  Mot de passe :
+                </div>
+
+                <v-text-field
+                  v-model="password"
+                  :rules="isPasswordValid"
+                  :append-inner-icon="visible ? '$eyeOff' : '$eye'"
+                  :type="visible ? 'text' : 'password'"
+                  density="compact"
+                  placeholder="Mot de passe"
+                  prepend-inner-icon="$lockOutline"
+                  variant="outlined"
+                  @click:append-inner="visible = !visible"
+                ></v-text-field>
+
+                <v-card-text class="text-center text-red">
+                  <p>{{ errMsg }}</p>
+                </v-card-text>
+
+                <v-btn
+                  :disabled="!username || !emailValid || !passwordValid"
+                  class="mb-8"
+                  color="blue"
+                  size="large"
+                  variant="tonal"
+                  block
+                  @click="register"
+                >
+                  S'enregistrer
+                </v-btn>
+
+                <v-card-text
+                  class="text-center text-blue cursor-pointer"
+                  @click="(overlayRegister = false), (overlayLogin = true), (visible = false)"
+                >
+                  Déjà un compte ? <v-icon icon="$chevronRight"></v-icon>
+                </v-card-text>
+              </v-card>
+            </v-overlay>
+          </v-list-item>
+          <v-list-item v-if="isLoggedIn" @click.stop="handleSignOut">
+            <v-list-item-title>Déconnexion</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-toolbar>
+
+    <!-- Contenu de la page -->
+    <div class="d-flex flex-column align-center ga-16 background">
+      <Game></Game>
+      <Home></Home>
+    </div>
+  </v-app>
 </template>
+
+<script setup>
+
+// Importation des composants nécessaires pour le script
+import { onMounted, ref, computed } from 'vue'
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword
+} from 'firebase/auth'
+import { db } from './main'
+import { doc, setDoc } from 'firebase/firestore'
+import Game from './views/Game.vue'
+import Home from './views/Home.vue'
+
+// Déclaration des variables globales
+const username = ref('')
+const email = ref('')
+const password = ref('')
+const errMsg = ref('')
+const isLoggedIn = ref(false)
+let auth
+
+// Fonction appelée lors de l'initialisation de la page
+onMounted(() => {
+  auth = getAuth()
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      isLoggedIn.value = true
+    } else {
+      isLoggedIn.value = false
+    }
+  })
+})
+
+// Fonction appelée lors de la déconnexion
+const handleSignOut = () => {
+  signOut(auth).then(() => {
+    isLoggedIn.value = false
+  })
+}
+
+// Fonction pour vérifier la validé d'un email
+const emailValid = computed(() => {
+  return email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+})
+
+// Fonction pour vérifier la robustesse d'un mot de passe
+const passwordValid = computed(() => {
+  return password.value.match(
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+  )
+})
+
+// Fonction servant de règle pour l'input du mot de passe
+const isPasswordValid = computed(() => {
+  return [
+    (value) => !!value || 'Le mot de passe est requis',
+    (value) =>
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value) ||
+      'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial'
+  ]
+})
+
+// Fonction pour la connexion en utilisant les méthodes d'authentification de Firebase
+const login = () => {
+  const auth = getAuth()
+  signInWithEmailAndPassword(auth, email.value, password.value)
+    .then(() => {
+      console.log('Connexion avec succès !')
+    })
+    .catch((error) => {
+      console.error('Erreur lors de la connexion : ', error.code)
+      switch (error.code) {
+        case 'auth/invalid-credential':
+          errMsg.value = 'Les informations de connexion sont incorrectes.'
+          break
+        default:
+          errMsg.value = 'Une erreur est survenue. Veuillez réessayer.'
+          break
+      }
+    })
+}
+
+// Fonction pour l'inscription en utilisant les méthodes d'authentification de Firebase
+const register = () => {
+  const auth = getAuth()
+  createUserWithEmailAndPassword(auth, email.value, password.value)
+    .then((data) => {
+      // Inscription de l'utilisateur dans la collection Firestore
+      setDoc(doc(db, 'users', data.user.uid), {
+        username: username.value,
+        score: 0
+      })
+    })
+    .then(() => {
+      console.log('Création terminée avec succès !')
+    })
+    .catch((error) => {
+      console.error('Erreur lors de la création du compte : ', error)
+    })
+}
+</script>
 
 <script>
 export default {
+  name: 'App',
   data() {
     return {
-      grid: [],
-      score: 0
-    }
-  },
-  mounted() {
-    this.preloadImages() // Appel de la méthode de préchargement des images
-    this.generateGrid()
-  },
-  methods: {
-    preloadImages() {
-      // Liste des chemins d'accès des images à précharger
-      const images = ['/voltorb.png'] // Ajoutez d'autres chemins d'accès si nécessaire
-      images.forEach((src) => {
-        const img = new Image()
-        img.src = src
-      })
-    },
-    generateGrid() {
-      for (let i = 0; i < 5; i++) {
-        let row = []
-        let zerosCount = 0 // Compteur pour le nombre de zéros dans la ligne
-        let rowTotal = 0 // Total des points dans la ligne
-        for (let j = 0; j < 5; j++) {
-          let num = Math.floor(Math.random() * 4)
-          row.push({ value: num, flipped: false }) // Ajouter le nombre à la ligne et initialiser flipped à false
-          if (num === 0) zerosCount++ // Incrémenter le compteur de zéros
-          rowTotal += num // Ajouter le nombre au total des points
-        }
-        // Ajouter le nombre de zéros et le total des points à la fin de la ligne
-        row.push({ total: rowTotal, zeros: zerosCount })
-        this.grid.push(row)
-      }
-      // Ajouter la dernière ligne contenant le nombre de zéros dans chaque colonne
-      let lastRow = []
-      for (let j = 0; j < 5; j++) {
-        let colZeros = this.grid.reduce((acc, row) => acc + (row[j].value === 0 ? 1 : 0), 0) // Compter les zéros dans la colonne
-        let colTotal = this.grid.reduce((acc, row) => acc + row[j].value, 0) // Calculer le total des points dans la colonne
-        lastRow.push({ total: colTotal, zeros: colZeros })
-      }
-      lastRow.push('') // La dernière cellule de la dernière ligne est vide
-      this.grid.push(lastRow)
-
-      // Afficher la grille dans la console
-      console.log('Grille générée :', this.grid)
-    },
-
-    checkLevelCompletion() {
-      // Parcourir la grille pour vérifier si toutes les cartes de valeur 2 et 3 ont été retournées
-      for (let i = 0; i < this.grid.length; i++) {
-        for (let j = 0; j < this.grid[i].length; j++) {
-          if (this.grid[i][j].value === 2 || this.grid[i][j].value === 3) {
-            if (!this.grid[i][j].flipped) {
-              // S'il reste au moins une carte de valeur 2 ou 3 non retournée, le niveau n'est pas terminé
-              return false
-            }
-          }
-        }
-      }
-
-      this.generateGrid()
-      // Si toutes les cartes de valeur 2 et 3 ont été retournées, le niveau est terminé
-      return true
-    },
-
-    resetGame() {
-      // Réinitialiser la grille en générant une nouvelle grille aléatoire
-      this.grid = []
-      this.generateGrid()
-
-      // Réinitialiser le score à zéro
-      this.score = 0
-
-      // Autres actions de réinitialisation, si nécessaire
-    },
-
-    handleCellClick(rowIndex, colIndex) {
-      // Vérifier si la cellule est déjà retournée
-      if (this.grid[rowIndex][colIndex].flipped) {
-        // Si la cellule est déjà retournée, ne rien faire
-        return
-      }
-
-      // Vérifier si la cellule contient un Voltorb
-      if (this.grid[rowIndex][colIndex].value === 0) {
-        // Si la cellule contient un Voltorb, déclencher le game over
-        alert('Game Over ! Vous avez retourné un Voltorb.')
-        // Ajoutez ici d'autres actions à effectuer en cas de game over, comme réinitialiser le jeu ou afficher un écran de fin de partie.
-        this.resetGame()
-        return
-      }
-
-      // Basculer la valeur flipped
-      this.grid[rowIndex][colIndex].flipped = true
-
-      // Ajouter les points au score uniquement si la cellule n'était pas déjà retournée
-      this.score += this.grid[rowIndex][colIndex].value
-
-      // Vérifier si le niveau est terminé
-      if (this.checkLevelCompletion()) {
-        // Si le niveau est terminé, générer une nouvelle grille tout en conservant le score
-        const currentScore = this.score
-        this.resetGame()
-        this.score = currentScore
-      }
+      sidebar: false,
+      overlayLogin: false,
+      overlayRegister: false,
+      visible: false,
     }
   }
 }
 </script>
 
 <style scoped>
-table {
-  border-collapse: collapse;
-}
-
-td {
-  border: 1px solid black;
-  width: 50px;
-  height: 50px;
-  text-align: center;
-  background-color: rgb(26, 39, 0);
-}
-
-.zero-cell {
-  background-color: rgb(26, 39, 0);
+.background {
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+  background-color: #309f6a;
 }
 </style>
