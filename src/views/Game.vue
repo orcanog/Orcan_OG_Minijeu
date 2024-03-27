@@ -51,10 +51,13 @@
               />
               <!-- Affichage des informations de la grille -->
               <div class="d-flex flex-column ga-1" v-if="cellIsInfoCell(rowIndex, colIndex)">
-
                 <!-- Affichage du total des points de la ligne ou colonne correspondante -->
                 <div class="d-flex justify-space-around align-center">
-                  <img src="/src/assets/pokeball.png" alt="Pokeball" style="width: 30px; height: 30px">
+                  <img
+                    src="/src/assets/pokeball.png"
+                    alt="Pokeball"
+                    style="width: 30px; height: 30px"
+                  />
                   <p class="text-white">{{ cell.total }}</p>
                 </div>
                 <hr style="height: 5px; width: 100%; color: white; background-color: white" />
@@ -300,7 +303,6 @@ export default {
                   score: this.totalScore
                 })
               }
-
             } else {
               console.log('Aucun document trouvé pour cet utilisateur.')
             }

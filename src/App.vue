@@ -172,7 +172,6 @@
 </template>
 
 <script setup>
-
 // Importation des composants nécessaires pour le script
 import { onMounted, ref, computed } from 'vue'
 import {
@@ -284,7 +283,7 @@ export default {
       sidebar: false,
       overlayLogin: false,
       overlayRegister: false,
-      visible: false,
+      visible: false
     }
   }
 }
