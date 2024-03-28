@@ -33,27 +33,15 @@
       <h2>Comment fonctionne le système de points ?</h2>
       <ul>
         <li>
-          <img
-            src="/src/assets/charmander.png"
-            alt="Salamèche"
-            style="width: 30px; height: 30px"
-          />
+          <img src="/src/assets/charmander.png" alt="Salamèche" style="width: 30px; height: 30px" />
           vaut 1 point.
         </li>
         <li>
-          <img
-            src="/src/assets/charmeleon.png"
-            alt="Reptincel"
-            style="width: 30px; height: 30px"
-          />
+          <img src="/src/assets/charmeleon.png" alt="Reptincel" style="width: 30px; height: 30px" />
           vaut 2 points.
         </li>
         <li>
-          <img
-            src="/src/assets/charizard.png"
-            alt="Dracaufeu"
-            style="width: 30px; height: 30px"
-          />
+          <img src="/src/assets/charizard.png" alt="Dracaufeu" style="width: 30px; height: 30px" />
           vaut 3 points.
         </li>
         <li>

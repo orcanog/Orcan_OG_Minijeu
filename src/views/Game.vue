@@ -237,6 +237,14 @@ export default {
       // Retourne la cellule
       cell.flipped = true
 
+      // Vérifie si la cellule contient un Voltorb
+      if (cell.value === 0) {
+        // Déclenche le game over si la cellule contient un Voltorb
+        alert('Game Over ! Vous avez retourné un Voltorb.')
+        this.resetGame()
+        return
+      }
+
       // Ajoute les points au score
       if (this.score === 0) {
         // Si le score est égal à 0, on additionne simplement la valeur de la cellule
@@ -251,14 +259,7 @@ export default {
         // Ajoute le score actuel au score total
         this.totalScore += this.score
         this.score = 0
-      }
-
-      // Vérifie si la cellule contient un Voltorb
-      if (cell.value === 0) {
-        // Déclenche le game over si la cellule contient un Voltorb
-        alert('Game Over ! Vous avez retourné un Voltorb.')
-        this.resetGame()
-        return
+        console.log('Niveau complété !')
       }
     },
 
@@ -284,15 +285,14 @@ export default {
 
     // Fonction pour réinitialiser le jeu
     resetGame() {
-      if (this.difficultyLevel === 1) {
-        // Le score total est égal au score actuel si game over au niveau 1
-        this.totalScore = this.score
-      }
-
       // Mettre à jour le score total dans la base de données si l'utilisateur est connecté
       if (getAuth().currentUser) {
         getDoc(doc(db, 'users', getAuth().currentUser.uid))
           .then((data) => {
+            if (this.difficultyLevel === 1) {
+              // Le score total est égal au score actuel si game over au niveau 1
+              this.totalScore += this.score
+            }
             if (data.exists()) {
               const userData = data.data()
               this.totalScoreDb = userData.score
@@ -312,6 +312,8 @@ export default {
           .catch((error) => {
             console.error('Erreur lors de la récupération du document utilisateur:', error)
           })
+      } else {
+        this.resetValues()
       }
 
       // Réinitialiser la grille en générant une nouvelle grille aléatoire
