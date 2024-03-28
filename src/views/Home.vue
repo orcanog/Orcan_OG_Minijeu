@@ -34,7 +34,7 @@
       <ul>
         <li>
           <img
-            src="/src/assets/charmanderTest2.png"
+            src="/src/assets/charmander.png"
             alt="Salamèche"
             style="width: 30px; height: 30px"
           />
@@ -42,7 +42,7 @@
         </li>
         <li>
           <img
-            src="/src/assets/charmeleonTest.png"
+            src="/src/assets/charmeleon.png"
             alt="Reptincel"
             style="width: 30px; height: 30px"
           />
@@ -50,7 +50,7 @@
         </li>
         <li>
           <img
-            src="/src/assets/charizardTest.png"
+            src="/src/assets/charizard.png"
             alt="Dracaufeu"
             style="width: 30px; height: 30px"
           />

@@ -29,7 +29,7 @@
               <!-- Utilisation d'une balise img pour l'image du Salamèche -->
               <img
                 v-if="cell.flipped && cell.value === 1"
-                src="/src/assets/charmanderTest2.png"
+                src="/src/assets/charmander.png"
                 alt="Salamèche"
                 style="width: 40px; height: 40px"
               />
@@ -37,7 +37,7 @@
               <!-- Utilisation d'une balise img pour l'image du Reptincel -->
               <img
                 v-if="cell.flipped && cell.value === 2"
-                src="/src/assets/charmeleonTest.png"
+                src="/src/assets/charmeleon.png"
                 alt="Reptincel"
                 style="width: 40px; height: 40px"
               />
@@ -45,7 +45,7 @@
               <!-- Utilisation d'une balise img pour l'image du Dracaufeu -->
               <img
                 v-if="cell.flipped && cell.value === 3"
-                src="/src/assets/charizardTest.png"
+                src="/src/assets/charizard.png"
                 alt="Dracaufeu"
                 style="width: 40px; height: 40px"
               />
