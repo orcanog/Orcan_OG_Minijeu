@@ -298,7 +298,6 @@ export default {
               this.totalScoreDb = userData.score
 
               if (this.totalScore > this.totalScoreDb) {
-                console.log('update')
                 updateDoc(doc(db, 'users', getAuth().currentUser.uid), {
                   score: this.totalScore
                 })
