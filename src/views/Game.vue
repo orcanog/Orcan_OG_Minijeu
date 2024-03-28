@@ -339,7 +339,6 @@ export default {
           querySnapshot.forEach((doc) => {
             this.usersList.push({ username: doc.data().username, score: doc.data().score })
           })
-          console.log(this.usersList)
         })
       } catch (error) {
         console.error('Erreur lors de la récupération des documents: ', error)
