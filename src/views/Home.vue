@@ -44,7 +44,10 @@
       <h2>Comment jouer ?</h2>
       <ul>
         <li>Retourne les cartes en cliquant dessus pour révéler leur contenu.</li>
-        <li>Les cases en dernière ligne affiche le nombre de points total et le nombre de Voltorbes que contienne leur colonne et vice versa pour la dernière colonne.</li>
+        <li>
+          Les cases en dernière ligne affiche le nombre de points total et le nombre de Voltorbes
+          que contienne leur colonne et vice versa pour la dernière colonne.
+        </li>
         <li>Attention aux Voltorbes ! Si tu en retournes un, tu perdras la partie.</li>
         <li>Utilise ta logique pour déduire l'emplacement des points et éviter les Voltorbes.</li>
         <li>
