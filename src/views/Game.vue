@@ -18,11 +18,11 @@
               }"
               @click="cellIsGameCell(rowIndex, colIndex) && handleCellClick(rowIndex, colIndex)"
             >
-              <!-- Utilisation d'une balise img pour l'image du Voltorb -->
+              <!-- Utilisation d'une balise img pour l'image du Voltorbe -->
               <img
                 v-if="cell.flipped && cell.value === 0"
                 src="/src/assets/voltorb.png"
-                alt="Voltorb"
+                alt="Voltorbe"
                 style="width: 40px; height: 40px"
               />
 
@@ -62,11 +62,11 @@
                 </div>
                 <hr style="height: 5px; width: 100%; color: white; background-color: white" />
 
-                <!-- Affichage du nombre de Voltorbs dans la ligne ou colonne correspondante -->
+                <!-- Affichage du nombre de Voltorbes dans la ligne ou colonne correspondante -->
                 <div class="d-flex justify-space-around align-center">
                   <img
                     src="/src/assets/voltorb.png"
-                    alt="Voltorb"
+                    alt="Voltorbe"
                     style="width: 30px; height: 30px"
                   />
                   <p class="text-white">{{ cell.zeros }}</p>
@@ -147,7 +147,7 @@ export default {
       this.grid = []
 
       // Système de difficulté
-      const maxVoltorb = Math.min(5 + difficultyLevel, 15) // Limite le nombre max de Voltorbs
+      const maxVoltorbe = Math.min(5 + difficultyLevel, 15) // Limite le nombre max de Voltorbes
       const multiplierChances = {
         1: 70 - difficultyLevel * 5,
         2: 20 + difficultyLevel * 2,
@@ -162,20 +162,20 @@ export default {
         this.grid.push(row)
       }
 
-      // Ajoute des Voltorbs à la grille
-      let voltorbsToAdd = Math.floor(
-        Math.random() * (maxVoltorb - difficultyLevel) + difficultyLevel
+      // Ajoute des Voltorbes à la grille
+      let voltorbesToAdd = Math.floor(
+        Math.random() * (maxVoltorbe - difficultyLevel) + difficultyLevel
       )
-      while (voltorbsToAdd > 0) {
+      while (voltorbesToAdd > 0) {
         let row = Math.floor(Math.random() * numRows)
         let col = Math.floor(Math.random() * numCols)
         if (this.grid[row][col].value !== 0) {
           this.grid[row][col] = { value: 0, flipped: false }
-          voltorbsToAdd--
+          voltorbesToAdd--
         }
       }
 
-      // Calcule le total des points et le nombre de Voltorbs par ligne
+      // Calcule le total des points et le nombre de Voltorbes par ligne
       for (let row = 0; row < numRows; row++) {
         let rowTotal = 0
         let zerosCount = 0
@@ -185,7 +185,7 @@ export default {
             zerosCount++
           }
         }
-        // Ajouterle total des points et le nombre de Voltorbs à la fin de la ligne
+        // Ajouterle total des points et le nombre de Voltorbes à la fin de la ligne
         this.grid[row].push({ total: rowTotal, zeros: zerosCount })
       }
 
@@ -237,10 +237,10 @@ export default {
       // Retourne la cellule
       cell.flipped = true
 
-      // Vérifie si la cellule contient un Voltorb
+      // Vérifie si la cellule contient un Voltorbe
       if (cell.value === 0) {
-        // Déclenche le game over si la cellule contient un Voltorb
-        alert('Game Over ! Vous avez retourné un Voltorb.')
+        // Déclenche le game over si la cellule contient un Voltorbe
+        alert('Game Over ! Vous avez retourné un Voltorbe.')
         this.resetGame()
         return
       }

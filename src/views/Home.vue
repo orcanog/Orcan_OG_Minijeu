@@ -11,23 +11,10 @@
         Chacune cachant soit un salamèche, un reptincel, un dracaufeu ou soit un redoutable Voltorb
         ! <br />
         Ton objectif ? Retourner les bonnes cartes pour accumuler un maximum de points tout en
-        évitant les Voltorb, qui mettront fin à ta partie si tu en retournes un ! <br />
+        évitant les Voltorbes, qui mettront fin à ta partie si tu en retournes un ! <br />
         Prêt à relever le défi ? Alors lance-toi et montre tes talents de stratège dans le mini-jeu
-        Voltorb Flip !
+        Pokémon Flip !
       </p>
-    </div>
-    <div class="d-flex flex-column align-center px-5 py-2 ga-4 couleur">
-      <h2>Comment jouer ?</h2>
-      <ul>
-        <li>Retourne les cartes en cliquant dessus pour révéler leur contenu.</li>
-        <li>Les chiffres indiquent le nombre de points présents dans la rangée ou la colonne.</li>
-        <li>Attention aux Voltorbs ! Si tu en retournes un, tu perdras la partie.</li>
-        <li>Utilise ta logique pour déduire l'emplacement des points et éviter les Voltorbs.</li>
-        <li>
-          Marque autant de points que possible pour grimper dans le classement et devenir le maître
-          du Pokémon Flip !
-        </li>
-      </ul>
     </div>
     <div class="d-flex flex-column align-center px-5 py-2 ga-4 couleur">
       <h2>Comment fonctionne le système de points ?</h2>
@@ -45,11 +32,24 @@
           vaut 3 points.
         </li>
         <li>
-          <img src="/src/assets/voltorb.png" alt="Voltorb" style="width: 30px; height: 30px" /> te
+          <img src="/src/assets/voltorb.png" alt="Voltorbe" style="width: 30px; height: 30px" /> te
           fait perdre la partie.
         </li>
         <li>
           La notation de points se base premièrement sur une addition puis sur de la multiplication.
+        </li>
+      </ul>
+    </div>
+    <div class="d-flex flex-column align-center px-5 py-2 ga-4 couleur">
+      <h2>Comment jouer ?</h2>
+      <ul>
+        <li>Retourne les cartes en cliquant dessus pour révéler leur contenu.</li>
+        <li>Les cases en dernière ligne affiche le nombre de points total et le nombre de Voltorbes que contienne leur colonne et vice versa pour la dernière colonne.</li>
+        <li>Attention aux Voltorbes ! Si tu en retournes un, tu perdras la partie.</li>
+        <li>Utilise ta logique pour déduire l'emplacement des points et éviter les Voltorbes.</li>
+        <li>
+          Marque autant de points que possible pour grimper dans le classement et devenir le maître
+          du Pokémon Flip !
         </li>
       </ul>
     </div>

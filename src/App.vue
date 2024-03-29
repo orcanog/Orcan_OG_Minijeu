@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <!-- Menu -->
-    <v-toolbar class="flex-grow-0" dark color="green">
+    <v-toolbar class="flex-grow-0" dark color="green-darken-2">
       <v-toolbar-title>Pokémon Flip</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu>
