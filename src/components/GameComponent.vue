@@ -100,7 +100,7 @@
         </li>
       </ul>
       <div>
-        <p>Connecte toi pour apparaître dans le classement !</p>
+        <p>Connecte toi <br> pour apparaître dans le classement !</p>
       </div>
     </div>
   </div>
@@ -381,19 +381,23 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-left: 7rem;
   background-color: #bc8c859d;
   border: 4px solid whitesmoke;
   border-radius: 10px;
-  width: 70%;
-  height: 50%;
+  width: 50%;
+  padding: 1rem;
 }
 
 .classement > ul {
   list-style-type: none;
   overflow: scroll;
   cursor: ns-resize;
+}
+
+.classement p {
+  text-align: center;
 }
 
 table {
